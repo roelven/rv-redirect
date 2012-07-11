@@ -18,4 +18,6 @@ $db       = new ezSQL_mysql($url['user'], $url['pass'], substr($url['path'], 1),
 $send_to = $db->get_row("SELECT redirect_uri FROM domains WHERE host = '". $host."'");
 $location = $send_to->redirect_uri;
 
+error_log('Redirect ['.$host.'] to ['.$location.']');
+
 ?>
