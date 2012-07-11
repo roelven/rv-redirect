@@ -1,0 +1,3 @@
+[submodule "ezSQL"]
+	path = ezSQL
+	url = https://github.com/jv2222/ezSQL.git
