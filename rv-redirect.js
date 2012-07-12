@@ -38,3 +38,8 @@ http.createServer(function(request, response) {
   connection.end();
 
 }).listen(process.env.PORT || 8888);
+
+process.on('uncaughtException', function (err) {
+  console.log("UNCAUGHT EXCEPTION");
+  console.log("[Inside 'uncaughtException' event] " + err.stack || err.message);
+});
