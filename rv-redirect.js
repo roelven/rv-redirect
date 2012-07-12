@@ -8,32 +8,31 @@ http.createServer(function(request, response) {
 
   connection.connect();
 
+  function redirect_to(domain) {
+    if (domain) {
+      return domain[0]['redirect_uri'];
+    } else {
+      throw new Error('Unknown domain.');
+    }
+  }
+
   connection.query(sql, function(err, results) {
-    if (err) {
-      console.log(err);
+    try {
+      console.log('Redirecting [' + hostname + '] to [' + redirect_to(results) + ']');
       response.writeHead(301, {
-        'X-Redirect-by': 'rv-redirect',
+        'Location': 'http://' + redirect_to(results)
+      });
+      response.end();
+    } catch (e) {
+      // surpressing e here since we want to redirect in all error cases
+      console.log('Unknown domain: [' + hostname + '], sending home.');
+      response.writeHead(301, {
         'Location': 'http://roelvanderven.com/rv-redirect-error'
       });
       response.end();
-    } else {
-      if (!results[0]['redirect_uri']) {
-        console.log('Domain unknown: [' + hostname + '], Sending home.');
-        response.writeHead(301, {
-          'X-Redirect-by': 'rv-redirect',
-          'Location': 'http://roelvanderven.com/rv-redirect'
-        });
-        response.end();
-      } else {
-        console.log('Redirecting [' + hostname + '] to [' + results[0]['redirect_uri'] + ']');
-        response.writeHead(301, {
-          'X-Redirect-by': 'rv-redirect',
-          'Location': 'http://' + results[0]['redirect_uri']
-        });
-        response.end();
-      }
-    };
+    }
   });
+
   connection.end();
 
 }).listen(process.env.PORT || 5000);
