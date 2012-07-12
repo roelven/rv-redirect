@@ -11,22 +11,22 @@ http.createServer(function(request, response) {
   connection.query(sql, function(err, results) {
     if (err) {
       console.log(err);
-      response.writeHead(302, {
+      response.writeHead(301, {
         'X-Redirect-by': 'rv-redirect',
         'Location': 'http://roelvanderven.com/rv-redirect-error'
       });
       response.end();
     } else {
       if (!results[0]['redirect_uri']) {
-        console.log('Domain unknown: ' + hostname + '. Sending home.');
-        response.writeHead(302, {
+        console.log('Domain unknown: [' + hostname + '], Sending home.');
+        response.writeHead(301, {
           'X-Redirect-by': 'rv-redirect',
           'Location': 'http://roelvanderven.com/rv-redirect'
         });
         response.end();
       } else {
-        console.log('Redirecting ' + hostname + ' to ' + results[0]['redirect_uri']);
-        response.writeHead(302, {
+        console.log('Redirecting [' + hostname + '] to [' + results[0]['redirect_uri'] + ']');
+        response.writeHead(301, {
           'X-Redirect-by': 'rv-redirect',
           'Location': 'http://' + results[0]['redirect_uri']
         });
