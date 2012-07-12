@@ -1,1 +1,1 @@
-web: node server.js
+web: node rv-redirect.js

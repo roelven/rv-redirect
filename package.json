@@ -1,0 +1,7 @@
+{
+  "name": "node",
+  "version": "0.8.2",
+  "dependencies": {
+    "mysql": ">= 2.0.0-alpha3"
+  }
+}
