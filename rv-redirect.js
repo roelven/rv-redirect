@@ -34,7 +34,6 @@ http.createServer(function(request, response) {
       }
     };
   });
-
   connection.end();
 
 }).listen(process.env.PORT || 5000);

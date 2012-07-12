@@ -1,5 +1,5 @@
 {
-  "name": "node",
+  "name": "rv-redirect",
   "version": "0.1.2",
   "dependencies": {
     "mysql": ">= 2.0.0-alpha3"
