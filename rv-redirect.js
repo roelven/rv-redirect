@@ -2,7 +2,7 @@ var http        = require('http'),
     mysql       = require('mysql');
 
 http.createServer(function(request, response) {
-  var hostname    = require('url').parse('http://' + request.headers.host).hostname,
+  var hostname    = require('url').parse('http://' + request.headers.host).hostname.replace('www.', ''),
       connection  = mysql.createConnection(process.env.CLEARDB_DATABASE_URL),
       sql         = 'SELECT redirect_uri FROM domains WHERE host = ' + connection.escape(hostname);
 
