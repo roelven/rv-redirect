@@ -21,6 +21,22 @@ You need to add a domain to the Heroku app to be able to redirect it. Using the 
 
 You can find an SQL dump in `rv-redirect_domains.sql`. I manage this table via [Sequel Pro](http://www.sequelpro.com/), there is no admin interface yet.
 
+### DNS
+
+Currently I'm setting up my domains with three A records pointing to:
+
+- `174.129.212.2`
+- `75.101.145.87`
+- `75.101.163.44`
+
+This is highly discouraged as it introduces a single point of failure on my side whenever Heroku decides to route their traffic differently. Read more about setting up custom domains here:
+
+- [Avoid naked domains and DNS A records](https://devcenter.heroku.com/articles/avoiding-naked-domains-dns-arecords) 
+- [Custom domains](https://devcenter.heroku.com/articles/custom-domains)
+
+I will update this section once I find a setup that is more reliable.
+
+
 ## Install
 
 ### Requirements
@@ -33,13 +49,21 @@ Create an Heroku app and get yourself familiar with the requirements for running
 
 Add the db addon: `$ heroku addons:add cleardb:ignite`. Run `$ heroku config` to get your credentials so you can connect your local environment to it. Connect to the database with your favorite MySQL tool and import the [sql structure](https://github.com/roelven/rv-redirect/blob/master/rv-redirect_domains.sql). When starting the app, export the environment variable to be sure foreman picks it up:
 
-`$ CLEARDB_DATABASE_URL="mysql://USERNAME:PASSWORD@HOST/DATABASE" foreman start`
+    $ CLEARDB_DATABASE_URL="mysql://USERNAME:PASSWORD@HOST/DATABASE" foreman start
 
 ## Deploying
 
 1. `$ git push heroku master`
-2. ??
+2. `$ heroku ps:scale web=1`
 3. Profit!
+
+### Logs
+
+To see the app in action once it's in production, run:
+
+    $ heroku logs -p web.1 --tail
+
+Whenever a domain is recognized and redirected, the app will print it to the logs.
 
 ## Todo
 
